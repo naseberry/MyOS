@@ -1,9 +1,8 @@
-# MyPerfectElementaryOS
+# MyOS
+Setup script for my OS.
 
-My current preferred Linux distro is [Elementary OS](http://elementary.io/)
+## Make file executable
+`$ chmod u+x setup.sh`
 
-## Make file executable using chmod, i.e:
-`chmod u+x eOS.sh`
-
-## Run relevant file, i.e:
-`./eOS.sh`
+## Run executable
+`$ ./setup.sh`
