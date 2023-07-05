@@ -4,12 +4,14 @@
 ####################
 # Update system
 ####################
-sudo apt update && sudo apt -y upgrade
+
+sudo apt update && sudo apt -y upgrade --with-new-pkgs
 
 
 ####################
 # Enable PPA
 ####################
+
 echo ">> Installing software-properties-common <<"
 sudo apt install -y software-properties-common
 
@@ -17,11 +19,11 @@ sudo apt install -y software-properties-common
 ####################
 # Add PPA
 ####################
+
 ppas=(
-  ppa:chromium-team/stable
-  ppa:danielrichter2007/grub-customizer
   ppa:git-core/ppa
-  ppa:philip.scott/elementary-tweaks
+  ppa:philip.scott/pantheon-tweaks
+  ppa:team-xbmc/ppa
 )
 
 for ppa in ${ppas[@]}; do
@@ -33,35 +35,29 @@ done
 ####################
 # Update system
 ####################
+
 sudo apt update
 
 
 ####################
 # Install Apps
 ####################
+
 install=(
-  # appeditor
-  # bravebrowser
-  chromium-browser
-  # eddy
-  elementary-tweaks
-  firefox
+  curl
+  dconf-editor
   gdebi
   git
   gnome-disk-utility
   gnome-system-monitor
   gnupg2
   gparted
-  grub-customizer
-  # keeweb
-  # lamp-server^
-  # postman
+  kodi
+  net-tools
+  pantheon-tweaks
   seahorse
-  # slack
-  # spotify
-  # visualstudiocode
+  tlp
   vlc
-  # zoom
 )
 
 for app in ${install[@]}; do
@@ -71,27 +67,42 @@ done
 
 
 ####################
-# Uninstall default apps
+# Brave
 ####################
-# uninstall=(
-#   audience # video player
-#   epiphany-browser # web browser
-#   evolution-data-server
-#   maya-calendar # calendar
-#   noise # audio player
-#   pantheon-mail # mail client
-#   simple-scan # scanner
-# )
 
-# for app in ${uninstall[@]}; do
-#   echo ">> Uninstall $app <<"
-#   sudo apt purge -y $app
-# done
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo apt update
+sudo apt install -y brave-browser
+
+
+####################
+# Chrome
+####################
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+gio trash google-chrome-stable_current_amd64.deb
+
+
+####################
+# Power management
+####################
+
+sudo systemctl enable tlp.service
+
+
+####################
+# VPN
+####################
+
+sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
 
 
 ####################
 # Clean system
 ####################
+
 clean=(
   autoremove
   autoclean
@@ -106,4 +117,5 @@ done
 ####################
 # Restart system
 ####################
+
 sudo reboot
