@@ -5,7 +5,8 @@
 # Update system
 ####################
 
-sudo apt update && sudo apt -y upgrade --with-new-pkgs
+sudo apt update
+sudo apt -y upgrade --with-new-pkgs
 
 
 ####################
@@ -22,8 +23,6 @@ sudo apt install -y software-properties-common
 
 ppas=(
   ppa:git-core/ppa
-  ppa:philip.scott/pantheon-tweaks
-  ppa:team-xbmc/ppa
 )
 
 for ppa in ${ppas[@]}; do
@@ -44,19 +43,23 @@ sudo apt update
 ####################
 
 install=(
+  baobab
+  btop
   curl
   dconf-editor
   gdebi
   git
   gnome-disk-utility
+  gnome-logs
+  gnome-power-manager
   gnome-system-monitor
   gnupg2
   gparted
-  kodi
   net-tools
-  pantheon-tweaks
+  psensor
   seahorse
   tlp
+  tlp-rdw
   vlc
 )
 
@@ -70,10 +73,7 @@ done
 # Brave
 ####################
 
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-sudo apt update
-sudo apt install -y brave-browser
+curl -fsS https://dl.brave.com/install.sh | sh
 
 
 ####################
@@ -97,6 +97,16 @@ sudo systemctl enable tlp.service
 ####################
 
 sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
+
+
+####################
+# VSCode
+####################
+
+wget -O vscode-latest.deb https://update.code.visualstudio.com/latest/linux-deb-x64/stable
+sudo dpkg -i vscode-latest.deb
+sudo apt-get install -f
+gio trash vscode-latest.deb
 
 
 ####################
